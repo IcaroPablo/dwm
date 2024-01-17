@@ -181,6 +181,7 @@ drw_fontset_create(Drw* drw, const char *fonts[], size_t fontcount)
 			ret = cur;
 		}
 	}
+    // em vez de retornar aqui, deveria simplesmente quitar com uma mensagem de erro
 	return (drw->fonts = ret);
 }
 
