@@ -17,8 +17,8 @@ static const char statussep         = ';';      /* separator between status bars
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
-static const char *fonts[]          = {"CozetteVector:pixelsize=12:antialias=true:autohint=true"};  // "monospace:size=10";
-static const char dmenufont[]       = "CozetteVector:pixelsize=12:antialias=true:autohint=true";  // "monospace:size=10"};
+static const char *fonts[]          = {"CozetteVector:pixelsize=13:antialias=true:autohint=true"};  // "monospace:size=10";
+static const char dmenufont[]       = "CozetteVector:pixelsize=13:antialias=true:autohint=true";  // "monospace:size=10"};
 static const char col_gray1[]       = "#000000"; // bar background
 static const char col_gray2[]       = "#444444"; // border norm
 static const char col_gray3[]       = "#bbbbbb"; // text norm color
@@ -71,7 +71,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", "-e", "dvtm", NULL };
+static const char *termcmd[]  = { "st", NULL };
 
 #include <X11/XF86keysym.h>
 
@@ -153,6 +153,7 @@ static Key keys[] = {
 	//	/* V is automatically bound above in STACKKEYS */
 	{ MODKEY,						XK_b,						togglebar,			{0} },
 	//{ MODKEY|ShiftMask,			XK_b,						spawn,				SHCMD("") }, */
+	{ MODKEY,						XK_n,						spawn,				SHCMD("chrome --force-dark-mode") },
 	//{ MODKEY|ShiftMask,			XK_n,						spawn,				SHCMD(TERMINAL " -e newsboat; pkill -RTMIN+6 dwmblocks") },
 	//{ MODKEY,						XK_m,						spawn,				SHCMD(TERMINAL " -e ncmpcpp") },
 	//{ MODKEY|ShiftMask,			XK_m,						spawn,				SHCMD("pamixer -t; kill -44 $(pidof dwmblocks)") },
@@ -180,32 +181,31 @@ static Key keys[] = {
 	//{ MODKEY|ShiftMask,			XK_Page_Down,				shifttag,			{ .i = +1 } },
 	//{ MODKEY,						XK_Insert,					spawn,				SHCMD("") },
 
-	{ MODKEY,            			XK_Escape,					spawn,				SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") },
-	{ 0,                            XK_Print,					spawn,          	SHCMD("scrot -f -s -q 100 -e 'xclip -selection clipboard -target image/png -i $f && rm $f'") },
-	{ MODKEY,						XK_Print,					spawn,				SHCMD("scrot -f -q 100 -e 'xclip -selection clipboard -target image/png -i $f && rm $f'") },
+	{ MODKEY,            			XK_Escape,					spawn,				SHCMD("slock xset dpms force off") },
+	{ MODKEY,                       XK_s,	    				spawn,          	SHCMD("scrot -f -s -q 100 -e 'xclip -selection clipboard -target image/png -i $f && rm $f'") },
+	{ MODKEY|ShiftMask,				XK_s,   					spawn,				SHCMD("scrot -f -q 100 -e 'xclip -selection clipboard -target image/png -i $f && rm $f'") },
 	//{ MODKEY,						XK_Print,					spawn,				SHCMD("dmenurecord") },
 	//{ MODKEY|ShiftMask,			XK_Print,					spawn,				SHCMD("dmenurecord kill") },
 	//{ MODKEY,						XK_Delete,					spawn,				SHCMD("dmenurecord kill") },
 	//{ MODKEY,						XK_Scroll_Lock,				spawn,				SHCMD("killall screenkey || screenkey &") },	
 
-	{ 0, 							XF86XK_AudioMute,			spawn,      	    SHCMD("amixer -D pulse sset Master toggle && kill -30 $(cat $HOME/.cache/barpid)") },
-	{ 0, 							XF86XK_AudioLowerVolume,	spawn,         		SHCMD("amixer -D pulse sset Master 5%- && kill -30 $(cat $HOME/.cache/barpid)") },
-	{ 0, 							XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("amixer -D pulse sset Master 5%+ && kill -30 $(cat $HOME/.cache/barpid)") },
+	/* { MODKEY, 						XK_z,		            	spawn,      	    SHCMD("amixer -D pulse sset Master toggle && kill -30 $(cat $HOME/.cache/barpid)") }, */
+	/* { MODKEY, 						XK_x,                   	spawn,         		SHCMD("amixer -D pulse sset Master 5%- && kill -30 $(cat $HOME/.cache/barpid)") }, */
+	/* { MODKEY, 						XK_c,                    	spawn,          	SHCMD("amixer -D pulse sset Master 5%+ && kill -30 $(cat $HOME/.cache/barpid)") }, */
 
-	/* the OpenBSD bindings, kept for when this config runs there: sndioctl
-	 * instead of amixer, on MODKEY+z/x/c rather than the XF86 audio keys */
-	//{ MODKEY, 						XK_z,			            	spawn,      	    SHCMD("sndioctl output.mute=! && kill -30 $(cat $HOME/.cache/barpid)") },
-	//{ MODKEY, 						XK_x,                   	spawn,         		SHCMD("sndioctl output.level=-0.05 && kill -30 $(cat $HOME/.cache/barpid)") },
-	//{ MODKEY, 						XK_c,                    	spawn,          	SHCMD("sndioctl output.level=+0.05 && kill -30 $(cat $HOME/.cache/barpid)") },
+	/* { MODKEY, 						XK_z,		            	spawn,      	    SHCMD("amixer -D pulse sset Master toggle && kill -30 $(cat $HOME/.cache/barpid)") }, */
+	{ MODKEY, 						XK_z,		            	spawn,      	    SHCMD("sndioctl output.mute=! && kill -30 $(cat $HOME/.cache/barpid)") },
+	{ MODKEY, 						XK_x,                   	spawn,         		SHCMD("sndioctl output.level=-0.05 && kill -30 $(cat $HOME/.cache/barpid)") },
+	{ MODKEY, 						XK_c,                    	spawn,          	SHCMD("sndioctl output.level=+0.05 && kill -30 $(cat $HOME/.cache/barpid)") },
 	
-	{ MODKEY, 						XF86XK_AudioMute,			spawn,          	SHCMD("~/.scripts/sp play") },
-	{ MODKEY, 						XF86XK_AudioLowerVolume,	spawn,          	SHCMD("~/.scripts/sp prev") },
-	{ MODKEY, 						XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("~/.scripts/sp next") },
+	/* { MODKEY, 						XF86XK_AudioMute,			spawn,          	SHCMD("~/.scripts/sp play") }, */
+	/* { MODKEY, 						XF86XK_AudioLowerVolume,	spawn,          	SHCMD("~/.scripts/sp prev") }, */
+	/* { MODKEY, 						XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("~/.scripts/sp next") }, */
 
 	//{ 0, 							XF86XK_AudioStop,			spawn,				SHCMD("mpc stop") },
 	//{ 0, 							XF86XK_AudioRewind,			spawn,				SHCMD("mpc seek -10") },
 	//{ 0, 							XF86XK_AudioForward,		spawn,				SHCMD("mpc seek +10") },
-	//{ 0, 							XF86XK_AudioMedia,			spawn,				SHCMD(TERMINAL " -e ncmpcpp") },
+	//{ 0, 							XF86XK_AudioMedia,			spawn,		tençao		SHCMD(TERMINAL " -e ncmpcpp") },
 	//{ 0, 							XF86XK_AudioMicMute,		spawn,				SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
 	//{ 0, 							XF86XK_TouchpadToggle,		spawn,				SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
 	//{ 0, 							XF86XK_TouchpadOff,			spawn,				SHCMD("synclient TouchpadOff=1") },
