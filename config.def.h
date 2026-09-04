@@ -17,8 +17,8 @@ static const char statussep         = ';';      /* separator between status bars
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
-static const char *fonts[]          = {"CozetteVector:pixelsize=12:antialias=true:autohint=true"};  // "monospace:size=10";
-static const char dmenufont[]       = "CozetteVector:pixelsize=12:antialias=true:autohint=true";  // "monospace:size=10"};
+static const char *fonts[]          = {"CozetteVector:pixelsize=13:antialias=true:autohint=true"};  // "monospace:size=10";
+static const char dmenufont[]       = "CozetteVector:pixelsize=13:antialias=true:autohint=true";  // "monospace:size=10"};
 static const char col_gray1[]       = "#000000"; // bar background
 static const char col_gray2[]       = "#444444"; // border norm
 static const char col_gray3[]       = "#bbbbbb"; // text norm color
@@ -207,9 +207,11 @@ static Key keys[] = {
 	//{ MODKEY, 						XK_x,                   	spawn,         		SHCMD("sndioctl output.level=-0.05 && kill -30 $(cat $HOME/.cache/barpid)") },
 	//{ MODKEY, 						XK_c,                    	spawn,          	SHCMD("sndioctl output.level=+0.05 && kill -30 $(cat $HOME/.cache/barpid)") },
 	
-	{ MODKEY, 						XF86XK_AudioMute,			spawn,          	SHCMD("~/.scripts/sp play") },
-	{ MODKEY, 						XF86XK_AudioLowerVolume,	spawn,          	SHCMD("~/.scripts/sp prev") },
-	{ MODKEY, 						XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("~/.scripts/sp next") },
+	/* ~/.scripts/sp no longer exists - there is no music script on this
+	 * machine any more, so these three did nothing when pressed */
+	//{ MODKEY, 						XF86XK_AudioMute,			spawn,          	SHCMD("~/.scripts/sp play") },
+	//{ MODKEY, 						XF86XK_AudioLowerVolume,	spawn,          	SHCMD("~/.scripts/sp prev") },
+	//{ MODKEY, 						XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("~/.scripts/sp next") },
 
 	//{ 0, 							XF86XK_AudioStop,			spawn,				SHCMD("mpc stop") },
 	//{ 0, 							XF86XK_AudioRewind,			spawn,				SHCMD("mpc seek -10") },
