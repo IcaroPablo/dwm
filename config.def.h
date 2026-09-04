@@ -188,9 +188,17 @@ static Key keys[] = {
 	//{ MODKEY,						XK_Delete,					spawn,				SHCMD("dmenurecord kill") },
 	//{ MODKEY,						XK_Scroll_Lock,				spawn,				SHCMD("killall screenkey || screenkey &") },	
 
-	{ 0, 							XF86XK_AudioMute,			spawn,      	    SHCMD("amixer -D pulse sset Master toggle && kill -30 $(cat $HOME/.cache/barpid)") },
-	{ 0, 							XF86XK_AudioLowerVolume,	spawn,         		SHCMD("amixer -D pulse sset Master 5%- && kill -30 $(cat $HOME/.cache/barpid)") },
-	{ 0, 							XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("amixer -D pulse sset Master 5%+ && kill -30 $(cat $HOME/.cache/barpid)") },
+	{ 0, 							XF86XK_AudioMute,			spawn,      	    SHCMD("wpctl set-mute @DEFAULT_SINK@ toggle && kill -30 $(cat $HOME/.cache/barpid)") },
+	{ 0, 							XF86XK_AudioLowerVolume,	spawn,         		SHCMD("wpctl set-volume @DEFAULT_SINK@ 5%- && kill -30 $(cat $HOME/.cache/barpid)") },
+	{ 0, 							XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("wpctl set-volume @DEFAULT_SINK@ 5%+ && kill -30 $(cat $HOME/.cache/barpid)") },
+
+	/* the form these replaced. `amixer -D pulse` wants the ALSA PulseAudio
+	 * plugin, which this machine has not got - it runs PipeWire/WirePlumber,
+	 * so the keys silently did nothing ("Mixer attach pulse error"). Plain
+	 * `amixer sset Master ...` without -D works too, if wpctl ever goes away. */
+	//{ 0, 							XF86XK_AudioMute,			spawn,      	    SHCMD("amixer -D pulse sset Master toggle && kill -30 $(cat $HOME/.cache/barpid)") },
+	//{ 0, 							XF86XK_AudioLowerVolume,	spawn,         		SHCMD("amixer -D pulse sset Master 5%- && kill -30 $(cat $HOME/.cache/barpid)") },
+	//{ 0, 							XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("amixer -D pulse sset Master 5%+ && kill -30 $(cat $HOME/.cache/barpid)") },
 
 	/* the OpenBSD bindings, kept for when this config runs there: sndioctl
 	 * instead of amixer, on MODKEY+z/x/c rather than the XF86 audio keys */
