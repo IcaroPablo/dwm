@@ -188,20 +188,21 @@ static Key keys[] = {
 	//{ MODKEY,						XK_Delete,					spawn,				SHCMD("dmenurecord kill") },
 	//{ MODKEY,						XK_Scroll_Lock,				spawn,				SHCMD("killall screenkey || screenkey &") },	
 
-	{ 0, 							XF86XK_AudioMute,			spawn,      	    SHCMD("wpctl set-mute @DEFAULT_SINK@ toggle && kill -30 $(cat $HOME/.cache/barpid)") },
-	{ 0, 							XF86XK_AudioLowerVolume,	spawn,         		SHCMD("wpctl set-volume @DEFAULT_SINK@ 5%- && kill -30 $(cat $HOME/.cache/barpid)") },
-	{ 0, 							XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("wpctl set-volume @DEFAULT_SINK@ 5%+ && kill -30 $(cat $HOME/.cache/barpid)") },
+	/* volume, on MODKEY+z/x/c - the keys the OpenBSD config used. wpctl talks
+	 * to WirePlumber, which is what actually runs on this machine. */
+	{ MODKEY, 						XK_z,			            	spawn,      	    SHCMD("wpctl set-mute @DEFAULT_SINK@ toggle && kill -30 $(cat $HOME/.cache/barpid)") },
+	{ MODKEY, 						XK_x,                   	spawn,         		SHCMD("wpctl set-volume @DEFAULT_SINK@ 5%- && kill -30 $(cat $HOME/.cache/barpid)") },
+	{ MODKEY, 						XK_c,                    	spawn,          	SHCMD("wpctl set-volume @DEFAULT_SINK@ 5%+ && kill -30 $(cat $HOME/.cache/barpid)") },
 
-	/* the form these replaced. `amixer -D pulse` wants the ALSA PulseAudio
-	 * plugin, which this machine has not got - it runs PipeWire/WirePlumber,
-	 * so the keys silently did nothing ("Mixer attach pulse error"). Plain
-	 * `amixer sset Master ...` without -D works too, if wpctl ever goes away. */
+	/* two earlier forms of the same three keys, kept. sndioctl is OpenBSD's.
+	 * `amixer -D pulse` wants the ALSA PulseAudio plugin, which is not here,
+	 * so it silently did nothing ("Mixer attach pulse error"); plain
+	 * `amixer sset Master ...` without -D does work. */
+
 	//{ 0, 							XF86XK_AudioMute,			spawn,      	    SHCMD("amixer -D pulse sset Master toggle && kill -30 $(cat $HOME/.cache/barpid)") },
 	//{ 0, 							XF86XK_AudioLowerVolume,	spawn,         		SHCMD("amixer -D pulse sset Master 5%- && kill -30 $(cat $HOME/.cache/barpid)") },
 	//{ 0, 							XF86XK_AudioRaiseVolume,	spawn,          	SHCMD("amixer -D pulse sset Master 5%+ && kill -30 $(cat $HOME/.cache/barpid)") },
 
-	/* the OpenBSD bindings, kept for when this config runs there: sndioctl
-	 * instead of amixer, on MODKEY+z/x/c rather than the XF86 audio keys */
 	//{ MODKEY, 						XK_z,			            	spawn,      	    SHCMD("sndioctl output.mute=! && kill -30 $(cat $HOME/.cache/barpid)") },
 	//{ MODKEY, 						XK_x,                   	spawn,         		SHCMD("sndioctl output.level=-0.05 && kill -30 $(cat $HOME/.cache/barpid)") },
 	//{ MODKEY, 						XK_c,                    	spawn,          	SHCMD("sndioctl output.level=+0.05 && kill -30 $(cat $HOME/.cache/barpid)") },
